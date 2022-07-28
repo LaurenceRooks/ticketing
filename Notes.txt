@@ -1,0 +1,50 @@
+1. Create ticketing folder.
+2. Create auth subfolder.
+
+Auth
+1. npm init -y
+2. npm install typescript ts-node-dev express @types/express
+3. tsc --init
+4. Create scr folder.
+5. Create index.ts file.
+6. Modify package.json file with "start": "ts-node-dev src/index.ts".
+7. Create the Dockerfile.
+8. Create the .dockerignore file.
+9. Build the docker image: docker build -t laurencerooks/auth .
+
+Infra/k8s
+1. Create the auth Kubernetes deployment file: auth-depl.yaml
+2. Make sure the minumum memory is set to at least 256 MB.
+
+Skaffold
+1. Create the Skaffold file: skaffold.yaml
+2. Run Skaffold from root project folder: skaffold dev --trigger polling
+
+Development Only
+1. Create the Ingress Nginx file for routing: ingress-srv.yaml
+2. Update local hosts file: code . /etc/hosts
+
+Route Handlers
+1. Create routes folder to separate out each route into their own file.
+2. Create each route file: signin.ts, signout.ts, signup.ts, and current-user.ts.
+    current-user = GET '/api/users/currentUser'
+    signin = POST '/api/users/signin' { email: string, password: string }
+    signout = POST '/api/users/signout' { }
+    signup = POST '/api/users/signup' { email: string, password: string }
+
+Validation Package
+1. Instead of writing code to validate parameters, install this express package.
+2. npm install express-validator
+
+Create Error Handler Middleware
+1. Create middlewares folder.
+2. Create error-handler file: error-handler.ts.
+
+Express Async Errors
+1. Install Async Error package to handle async requests.
+2. npm install express-async-errors
+
+MongoDb Mongoose
+1. Change to the directory of the application.
+2. npm install mongoose
+3. If necessary, install types: npm install @types/mongoose

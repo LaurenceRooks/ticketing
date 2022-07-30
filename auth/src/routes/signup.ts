@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
+import { User } from '../models/user';
 import { RequestValidationError } from '../errors/request-validation-error';
-import { DatabaseConnectionError } from '../errors/database-connection-error';
+import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
 
@@ -26,12 +27,26 @@ async (req: Request, res: Response) => {
         throw new RequestValidationError(errors.array());
     }
 
+    // Query User Collection for existing email address.
+    // 1. Retrieve email from the request body.
     const { email, password } = req.body;
 
-    console.log('Creating a user.');
-    throw new DatabaseConnectionError();
+    // 2. Search for an exsting user with the email address from the request body.
+    const existingUser = await User.findOne({ email });
 
-    res.send({});
+    // 3. If the user exists, return back an error.
+    if (existingUser) {
+        throw new BadRequestError('Email address is in use.');
+    }
+
+    // 4. Hash the password.
+
+    // 5. If the user does not exist, create the user.
+    const user = User.build({ email, password });
+    await user.save();
+
+    // 6. Send back notification.
+    res.status(201).send(user);
 });
 
 export { router as signupRouter };

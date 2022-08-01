@@ -48,3 +48,7 @@ MongoDb Mongoose
 1. Change to the directory of the application.
 2. npm install mongoose
 3. If necessary, install types: npm install @types/mongoose
+
+Managing Cookie Sessions
+1. Change to the directory of the application.
+2. npm install cookie-session.

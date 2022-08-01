@@ -51,4 +51,13 @@ MongoDb Mongoose
 
 Managing Cookie Sessions
 1. Change to the directory of the application.
-2. npm install cookie-session.
+2. npm install cookie-session @types/cookie-session
+
+JSON Web Tokens
+1. Change to the directory of the application.
+2. npm install jsonwebtoken @types/jsonwebtoken
+
+Creating Secrets in Kubernetes
+1. kubectl create secret generic <secret name> --from-literal=<environment key>=<environment key value>
+2. kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf
+3. List of all Kubernetes secrets: kubectl get secrets

@@ -28,6 +28,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+}, {
+    // Define what we want to convert and return in the JSON response.
+    toJSON: {
+        transform(doc, ret) {
+            // Remap the _id value from Mongoose to id.
+            ret.id = ret._id;
+            // Remove the _id property from displaying in the JSON response.
+            delete ret._id;
+            // Remove the password property from displaying in the JSON response.
+            delete ret.password;
+            // Remove the version property from displaying in the JSON response.
+            delete ret.__v;
+        }
+    }
 });
 
 userSchema.pre('save', async function(done) {

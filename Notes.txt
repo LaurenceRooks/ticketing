@@ -21,8 +21,9 @@ Skaffold
 2. Run Skaffold from root project folder: skaffold dev --trigger polling
 
 Development Only
-1. Create the Ingress Nginx file for routing: ingress-srv.yaml
-2. Update local hosts file: code . /etc/hosts
+1. Make sure the Ingress Nginx images are in use: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
+2. Create the Ingress Nginx file for routing: ingress-srv.yaml
+3. Update local hosts file: code . /etc/hosts
 
 Route Handlers
 1. Create routes folder to separate out each route into their own file.

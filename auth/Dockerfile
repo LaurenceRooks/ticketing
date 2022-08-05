@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json .
 
 # Install the necessary packages on the Docker image.
-RUN npm install
+RUN npm install --only=prod
 
 # Copy remaining files necessary for the application to work: COPY <Source> <Destination>
 COPY . .

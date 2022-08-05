@@ -1,0 +1,31 @@
+Scope of Tests
+1. Test a single piece of code in isolation. (Unit Test) Example - Single middleware.
+2. Test how different pieces of code work together. Example - Request flowing through multiple middlewares to a request handler.
+3. Test how different components work together. Example - Make a request to service, ensure write to database was completed.
+4. Test how different services work together. Example - Creating a 'payment' at the 'payments' service should affect the 'orders' service.
+
+Testing Goal #1 - Basic Request Handling
+1. Make sure we can submit a request to our middleware.
+2. Make sure the request is handled appropriately as expected.
+
+Testing Goal #2 - Some Tests Around Models
+1. Unit Test style approach.
+2. Investigate our model and the funtionality around it.
+
+Testing Goal #3 - Event Emmitting nad Receiving
+1. Make sure we can receiving incoming events.
+2. Make sure the event is processed accordingly as expected.
+3. Make sure we can send outgoing events.
+
+Install Dependencies
+1. Change to the directory of the application.
+2. Install jest, ts-jest, supertest, mongodb-memory-server, and the respective types.
+3. npm install --save-dev @types/jest @types/supertest, jest ts-jest supertest mongodb-memory-server
+
+Auth App Testing
+1. npm run test
+2. Jest will be used to do the following:
+    a. Start in-memory copy of MongoDb.
+    b. Start up our express app.
+    c. Use supertest library to make fake requests to our express app.
+    d. Run assertions to make sure the request did the right thing.

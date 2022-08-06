@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { app } from '../../app';
 
-it('Returns a 201 on successful signup.',async () => {
-    return request(app)
+it('Returns a 200 on successful signin.',async () => {
+    await request(app)
         // Define the type of request and path.
         .post('/api/users/signup')
         // Define the body of the request.
@@ -12,12 +12,23 @@ it('Returns a 201 on successful signup.',async () => {
         })
         // Define the expected return code.
         .expect(201);
+    
+    await request(app)
+        // Define the type of request and path.
+        .post('/api/users/signin')
+        // Define the body of the request.
+        .send({
+            email: 'test@test.com',
+            password: 'password'
+        })
+        // Define the expected return code.
+        .expect(200);
 });
 
 it('Returns a 400 with an invalid email.',async () => {
     return request(app)
         // Define the type of request and path.
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         // Define the body of the request.
         .send({
             email: 'test',
@@ -30,7 +41,7 @@ it('Returns a 400 with an invalid email.',async () => {
 it('Returns a 400 with an invalid password.',async () => {
     return request(app)
         // Define the type of request and path.
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         // Define the body of the request.
         .send({
             email: 'test@test.com',
@@ -43,7 +54,7 @@ it('Returns a 400 with an invalid password.',async () => {
 it('Returns a 400 with missing password.',async () => {
     return request(app)
         // Define the type of request and path.
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         // Define the body of the request.
         .send({
             email: 'test@test.com'
@@ -55,7 +66,7 @@ it('Returns a 400 with missing password.',async () => {
 it('Returns a 400 with missing email.',async () => {
     return request(app)
         // Define the type of request and path.
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         // Define the body of the request.
         .send({
             password: 'password'
@@ -64,7 +75,20 @@ it('Returns a 400 with missing email.',async () => {
         .expect(400);
 });
 
-it('Disallows dulicate emails.',async () => {
+it('Fails when an email that does not exist is supplied.',async () => {
+    await request(app)
+        // Define the type of request and path.
+        .post('/api/users/signin')
+        // Define the body of the request.
+        .send({
+            email: 'test@test.com',
+            password: 'password'
+        })
+        // Define the expected return code.
+        .expect(400);
+});
+
+it('Fails when an incorrect password is supplied.',async () => {
     await request(app)
         // Define the type of request and path.
         .post('/api/users/signup')
@@ -76,20 +100,20 @@ it('Disallows dulicate emails.',async () => {
         // Define the expected return code.
         .expect(201);
 
-        await request(app)
+    await request(app)
         // Define the type of request and path.
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         // Define the body of the request.
         .send({
             email: 'test@test.com',
-            password: 'password'
+            password: 'wrongpassword'
         })
         // Define the expected return code.
         .expect(400);
 });
 
-it('Sets a cookie after successful signup.',async () => {
-    const response = await request(app)
+it('Sets a cookie after successful signin.',async () => {
+    await request(app)
         // Define the type of request and path.
         .post('/api/users/signup')
         // Define the body of the request.
@@ -99,6 +123,17 @@ it('Sets a cookie after successful signup.',async () => {
         })
         // Define the expected return code.
         .expect(201);
+    
+    const response = await request(app)
+        // Define the type of request and path.
+        .post('/api/users/signin')
+        // Define the body of the request.
+        .send({
+            email: 'test@test.com',
+            password: 'password'
+        })
+        // Define the expected return code.
+        .expect(200);
 
     expect(response.get('Set-Cookie')).toBeDefined();
 });

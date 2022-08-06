@@ -1,6 +1,12 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import request from 'supertest';
 import { app } from '../app';
+
+// Declare Gloal signin
+declare global {
+    var signin: () => Promise<string[]>;
+  }
 
 // Define mongo.
 let mongo: any;
@@ -34,3 +40,24 @@ afterAll(async () => {
     }
     await mongoose.connection.close();
   });
+
+// Global SignUp Function for all of our tests.
+global.signin = async () => {
+    const email = 'test@test.com';
+    const password = 'password';
+
+    const response = await request(app)
+        // Define the type of request and path.
+        .post('/api/users/signup')
+        // Define the body of the request.
+        .send({
+            email,
+            password
+        })
+        // Define the expected return code.
+        .expect(201);
+
+    const cookie = response.get('Set-Cookie');
+
+    return cookie;
+}

@@ -1,0 +1,51 @@
+1. Create client subfolder.
+
+Client
+1. npm init -y
+2. npm install react react-dom next
+3. Create pages folder.
+4. Create index.js file.
+    const <componentname> = () => {
+        <content>;
+    };
+
+    export default <componentname>;
+5. Modify package.json file with "dev": "next".
+6. Create the Dockerfile.
+7. Create the .dockerignore file.
+8. Build the docker image: docker build -t laurencerooks/client .
+
+Infra/k8s
+1. Create the auth Kubernetes deployment file: client-depl.yaml
+2. Make sure the minumum memory is set to at least 256 MB.
+
+Skaffold
+1. Update the Skaffold file, skaffold.yaml, by adding in the appropriate image.
+2. Run Skaffold from root project folder: skaffold dev --trigger polling
+
+Development Only
+1. Make sure the Ingress Nginx images are in use: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
+2. Update the Ingress Nginx file,ingress-srv.yaml, for routing by addding the appropriate path at the bottom of the file.
+
+Next Config file
+1. Create conifiguration file for Next JS to help monitor changes to files every 300 milliseconds.
+2. next.config.js
+
+Bootstrap for CSS
+1. Change to the pages directory.
+2. Create _app.js file.
+3. Change to the client directory.
+4. Intall Bootstrap.
+5. npm install bootstrap
+
+Axios Package
+1. To route requests from react to next js, install the axios package.
+2. npm install axios
+
+Kubernetes Cross Namespace Communication
+1. The fully qualified name is required to access a service within another namespace.
+2. http://<NameOfService>.<NameSpace>.svc.cluster.local
+3. List of kubernetes namespaces: kubectl get namespace
+4. List of services within a kubernetes namespace: kubectl get services -n <namespace>
+5. http://ingress-nginx-controller.ingress-nginx.svc.cluster.local
+6. Create an External Name Service to shorten the fully qualified name into something easier to remember.

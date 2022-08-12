@@ -56,3 +56,6 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Optional Next Js directories
+.next

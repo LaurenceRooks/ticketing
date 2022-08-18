@@ -1,9 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import buildClient from '../api/build-client';
+import Header from '../components/header';
 
-const _App = ({ Component, pageProps }) => {
+const AppComponent = ({ Component, pageProps, currentUser }) => {
     // Return Compoent and spread over pageProps
-    return <Component {...pageProps} />
-    
+    return (
+        <div>
+            <Header currentUser={currentUser}/>
+            <Component {...pageProps} />
+        </div>
+    );
 };
 
-export default _App;
+AppComponent.getInitialProps = async (appContext) => {
+    const client = buildClient(appContext.ctx);
+    const { data } = await client.get('/api/users/currentuser')
+    
+    // Retrieve the context necessary to invoke the getInitialProps function at the page level.
+    let pageProps = {};
+    if (appContext.Component.getInitialProps) {
+        pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+    }
+
+    return {
+        pageProps,
+        ...data
+    };
+};
+
+export default AppComponent;

@@ -1,0 +1,45 @@
+Three types of NPM registries:
+1. Public Registry - Available for anyone to see by default.
+    a. Organization Registry - Available for anyone authorized within or a member of the organization to see.
+2. Private Registry - Available for anyone you provide access to.
+    a. Possible to host through open source within your organization.
+
+Create common folder
+1. mkdir common
+2. cd common
+3. npm init -y
+4. Modify package.json file with "name": "@lartickets/common"
+5. Create new git repository:
+    a. git init
+    b. If the name of the branch is master, run the following command: git branch -m main
+    c. git add .
+    d. git commit -m "Initial commit."
+6. Publish to NPM Public Organization lartickets: npm publish --access public
+
+Prepare for sharing
+1. Create a typescript config file: tsc --init
+2. Install the typescript and del-cli as development dependencies: npm install typescript del-cli --save-dev
+3. Create src folder.
+4. Create index.ts file.
+5. Modify package.json file:
+    a. Add "clean": "del ./build/*"
+    b. Add "build": "npm run clean && tsc"
+    c. Update "main": to reflect "./build/index.js"
+    d. Add "types": "./build/index.d.ts"
+    e. Add "files": [
+        "build/**/*"
+    ]
+6. Modify tsconfig.json file:
+    a. Uncomment "declaration": true
+    b. Uncomment "outDir": "./" and change to "outDir": "./build"
+7. Execute the build process: npm run build
+
+Publishing updates
+1. Add new files to the local repository: get add .
+2. Commit the new files that were added to the local repository: git commit -m "<Insert reason/messsage>"
+3. Update the version number: npm version patch
+4. Publish to the npm repository: npm publish
+
+Make Shared components available for use
+1. Within the index.js file export * from each shared component, e.g. export * from './errors/bad-request-error';
+2. Import each node_module that was installed in the original applications.

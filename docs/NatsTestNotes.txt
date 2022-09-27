@@ -1,0 +1,11 @@
+Set Up Port Forwarding
+1. Change directory to nats-test.
+2. Get list of pod names: kubectl get pods
+3. Find name for the nats-depl pod.
+4. Set up port forwarding: kubectl port-forward nats-depl-<uniquepodname> 4222:4222
+
+Start the Publisher
+1. npm run publish
+
+Start the Listener
+1. npm run listen
